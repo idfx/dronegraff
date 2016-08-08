@@ -1,0 +1,30 @@
+{
+  "name": "dronegraff",
+  "description": "Automate graffiti creation by attaching a paint supply to a preprogrammed drone.",
+  "main": "app.js",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "ar-drone": "~0.3.3",
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "dronestream": "^1.1.1",
+    "express": "~4.13.1",
+    "jade": "~1.11.0",
+    "logo": "^0.2.0",
+    "morgan": "~1.6.1",
+    "serve-favicon": "~2.3.0",
+    "socket.io": "^1.3.6"
+  },
+  "author": {
+    "name": "Juan Lara",
+    "email": "juandariolara@gmail.com"
+  },
+  "license": "Apache-2.0",
+  "engine": {
+    "node": ">=0.6.0"
+  }
+}

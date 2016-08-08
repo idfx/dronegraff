@@ -1,0 +1,10 @@
+{
+  "name": "dronegraff",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "latest",
+    "bootstrap": "latest",
+    "angular": "latest",
+    "codemirror": "~5.5.0"
+  }
+}

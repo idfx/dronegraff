@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<title>Logo Interpreter</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<link rel="alternate" type="application/atom+xml" href="https://github.com/idfx/dronegraff/commits/master.atom">
+<link rel="shortcut icon" href="favicon.ico">
+
+<script src="polyfill/polyfill.min.js"></script>
+
+<!--[if lt IE 9]>
+<script type="text/javascript" src="polyfill/flashcanvas.js"></script><![endif]-->
+
+<!-- CodeMirror, add-ons, and Logo-specific highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/codemirror.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/addon/runmode/runmode.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/addon/edit/closebrackets.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/addon/edit/matchbrackets.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/addon/display/placeholder.min.js"></script>
+<script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/codemirror.css">
+
+<script src="cm/logo.js"></script>
+
+<link rel="stylesheet" href="cm/logo.css">
+
+<link rel="stylesheet" href="stylesheets/index.css">
+
+<body class="single">
+
+<div id="topbar" class="panel">
+    <h1>DroneGraff</h1>
+
+    <p>
+        By <a href="mailto:juandariolara@gmail.com">Juan Lara.</a>
+        Based on work by <a href="mailto:inexorabletash@gmail.com">Joshua Bell</a>
+        and <a href="mailto:max@maxogden.com">Max Ogden</a>
+        | <a target="_blank" href="HTML/tests.htm">Unit Tests</a>
+        | <a target="_blank" href="https://github.com/idfx/dronegraff">Source</a>
+        <!--| <a title="Collaborate with TogetherJS" href="#" id="start-togetherjs" onclick="TogetherJS(); return false">Collaborate</a><sup><i>New!</i></sup>-->
+    </p>
+</div>
+
+<div id="display-panel" class="panel">
+    <div id="display">
+        <div class="inner">
+            <canvas id="sandbox" width="450" height="250">
+                <span>Your browser does not support the canvas element - sorry!</span>
+            </canvas>
+            <canvas id="turtle" width="450" height="250"></canvas>
+            <div id="overlay"></div>
+            <div id="error"></div>
+        </div>
+    </div>
+</div>
+
+<div id="input-panel" class="panel">
+    <!-- TODO: Make this a button or anchor -->
+    <div id="input">
+        <div class="inner-input">
+            <div id="toggle">
+                <span id="expand-label">&#x2197;</span>
+                <span id="collapse-label">&#x2199;</span>
+            </div>
+            <textarea rows="1" cols="80" placeholder="Type your code here..." id="logo-ta-single-line"></textarea>
+            <textarea rows="20" cols="80" placeholder="Type your code here..." id="logo-ta-multi-line"></textarea>
+        </div>
+    </div>
+    <div id="run" class="UIButton">
+        <div class="label">Test</div>
+    </div>
+    <div id="send" class="UIButton">
+        <div class="label">Send</div>
+    </div>
+</div>
+
+<div id="sidebar-header" class="panel">
+    <ul>
+        <li><a id="sb-link-reference" href="#">Reference</a> - the Logo language
+        <li><a id="sb-link-library" href="#">Library</a> - your procedures
+        <li><a id="sb-link-history" href="#">History</a> - everything you&apos;ve done here
+        <li><a id="sb-link-examples" href="#">Examples</a> - fun things to try out
+        <li><a id="sb-link-extras" href="#">Extras</a> - helpful utilities
+        <li><a id="sb-link-links" href="#">Links</a> - other Logo resources
+    </ul>
+</div>
+
+<div id="sidebar" class="panel examples">
+    <iframe frameBorder="0" allowtransparency="true" src="HTML/language.htm" class="choice" id="reference"></iframe>
+    <div class="choice snippets" id="examples">
+    </div>
+    <div class="choice snippets" id="history">
+        <!-- TODO: Add "clear history" button -->
+    </div>
+    <div class="choice snippets" id="library">
+    </div>
+    <div class="choice" id="links">
+
+        <ul>
+            <li><a target="_blank" href="http://en.wikipedia.org/wiki/Logo_(programming_language)">Logo</a> according to
+                Wikipedia
+            </li>
+            <li><a target="_blank" href="http://utdallas.edu/~veerasam/logo/">UT Dallas LOGO Workshop</a> - fun examples
+                to try
+            </li>
+            <li>Other Web-based Logos:
+                <ul>
+                    <li><a target="_blank" href="http://logo.twentygototen.org/_REo_2F2">papert - logo in your
+                        browser</a></li>
+                    <li><a target="_blank" href="https://github.com/drj11/curlylogo"
+                        <!--data-old-href="http://www.amberfrog.com/logo/">Curly Logo</a> (uses SVG).--></li>
+                    <li><a target="_blank" href="https://blog.heroku.com/archives/2011/4/1/announcing_heroku_for_logo">Heroku
+                        for Logo</a> - based on Logo; launched April 1st, 2011
+                    </li>
+                </ul>
+            <li><a target="_blank" href="http://el.media.mit.edu/logo-foundation/">The Logo Foundation</a> with links to
+                learning resources and software
+            </li>
+            <li><a target="_blank" href="http://www.cs.berkeley.edu/~bh/logo.html">Berkeley Logo (UCBLogo)</a> is a well
+                respected freeware interpreter
+            </li>
+            <li><a target="_blank" href="http://elica.net/download/papers/LogoTreeProject.pdf">The Logo Tree Project</a>
+                analyzes Logo variants
+            </li>
+            <li><a target="_blank" href="http://blog.ianbicking.org/2007/10/19/logo/">Ian Bicking on Logo</a></li>
+            <li><a target="_blank" href="http://pylogo.sourceforge.net/">PyLogo</a> is a sweet interpreter in Python
+            </li>
+            <li><a target="_blank" href="http://www.bfoit.org/itp/itp.html">Introduction to Computer Programming</a>
+                using Logo
+            </li>
+            <li><a target="_blank" href="http://groups.yahoo.com/group/LogoForum/">LogoForum</a> - a group for Logo
+                programming discussions
+            </li>
+        </ul>
+        <p style="margin-top: 5em;">
+            Syntax Highlighting by <a target="_blank" href="http://codemirror.net">CodeMirror</a>.
+        </p>
+    </div>
+    <div class="choice" id="extras">
+        <ul>
+            <li><a id="savelibrary" href="#">Download Library</a></li>
+            <li><a id="screenshot" href="#">Download Drawing</a></li>
+            <li><a id="clearhistory" href="#">Clear history</a></li>
+            <li><a id="clearlibrary" href="#">Clear library</a></li>
+        </ul>
+    </div>
+</div>
+
+<script src="js/floodfill.js"></script>
+<script src="js/logo.js"></script>
+<script src="js/turtle.js"></script>
+<script src="js/index.js"></script>
+
+
+<!-- TogetherJS Collaboration -->
+<!--<script src="https://togetherjs.com/togetherjs-min.js"></script>-->
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-18610679-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function () {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+<a href="https://github.com/idfx/dronegraff"><img style="position: absolute; top: 0; right: 0; border: 0;"
+                                                  src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+                                                  alt="Fork me on GitHub"></a>
+
+</body>
